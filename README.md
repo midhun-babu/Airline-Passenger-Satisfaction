@@ -1,7 +1,7 @@
 # Airline Passenger Satisfaction Analysis
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/midhun-babu/Airline-Passenger-Satisfaction/blob/main/Airline_Analysis.ipynb)
-
+Live page: https://midhun-babu.github.io/Airline-Passenger-Satisfaction/
 Analysis of a public airline passenger survey to find out what is linked to passenger satisfaction, and how well a model can predict it.
 
 ## Questions
