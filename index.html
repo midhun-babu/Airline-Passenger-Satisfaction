@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Airline Passenger Satisfaction Analysis</title>
+<meta name="description" content="Analysis of 103,904 airline survey responses: what is linked to passenger satisfaction, and how well a model predicts it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{font-family:'Inter',system-ui,sans-serif}
+  .bar{animation:grow .9s ease-out both;transform-origin:left}
+  @keyframes grow{from{transform:scaleX(0)}}
+  @media (prefers-reduced-motion:reduce){.bar{animation:none}.scroll-smooth{scroll-behavior:auto}}
+</style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<div class="min-h-screen bg-gray-50">
+
+  <!-- Hero -->
+  <section id="overview" class="relative h-screen overflow-hidden">
+    <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_091828_e240eb17-6edc-4129-ad9d-98678e3fd238.mp4"></video>
+
+    <div class="relative h-full flex flex-col">
+      <!-- Nav -->
+      <nav class="w-full max-w-7xl mx-auto px-8 py-6">
+        <div class="flex items-center justify-between">
+          <a href="#overview" class="text-2xl font-semibold text-gray-900">Airline Satisfaction</a>
+          <div class="hidden md:flex items-center gap-8">
+            <a href="#overview" class="text-gray-900 hover:text-gray-700 transition-colors">Start</a>
+            <a href="#findings" class="text-gray-900 hover:text-gray-700 transition-colors">Findings</a>
+            <a href="#services" class="text-gray-900 hover:text-gray-700 transition-colors">Services</a>
+            <a href="#delays" class="text-gray-900 hover:text-gray-700 transition-colors">Delays</a>
+            <a href="#models" class="text-gray-900 hover:text-gray-700 transition-colors">Models</a>
+          </div>
+          <button id="menuBtn" class="md:hidden text-gray-900" aria-label="Toggle menu" aria-expanded="false">
+            <svg id="iconMenu" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            <svg id="iconX" class="hidden" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden mt-4 bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg p-6 flex-col gap-4">
+          <a href="#overview" class="block text-gray-900 hover:text-gray-700 transition-colors">Start</a>
+          <a href="#findings" class="block text-gray-900 hover:text-gray-700 transition-colors">Findings</a>
+          <a href="#services" class="block text-gray-900 hover:text-gray-700 transition-colors">Services</a>
+          <a href="#delays" class="block text-gray-900 hover:text-gray-700 transition-colors">Delays</a>
+          <a href="#models" class="block text-gray-900 hover:text-gray-700 transition-colors">Models</a>
+        </div>
+      </nav>
+
+      <!-- Hero content -->
+      <div class="flex-1 flex items-center justify-center px-6">
+        <div class="text-center -mt-24 md:-mt-80">
+          <p class="text-sm font-semibold text-gray-600 tracking-wider mb-4 uppercase">Airline data analysis</p>
+          <h1 class="text-6xl md:text-7xl lg:text-8xl font-normal leading-none tracking-tighter">
+            <span class="block text-gray-500">What drives</span>
+            <span class="block" style="color:#202A36;margin-top:-12px">satisfaction.</span>
+          </h1>
+          <p class="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto mt-6">An analysis of 103,904 airline survey responses.</p>
+          <div class="flex gap-4 justify-center">
+            <a href="#findings" class="px-4 py-2 rounded-full bg-gray-300 text-gray-800 font-medium hover:bg-gray-400 transition-colors">Discover</a>
+            <a href="https://github.com/midhun-babu/Airline-Passenger-Satisfaction" class="px-4 py-2 rounded-full text-white font-medium transition-colors bg-[#202A36] hover:bg-[#1a2229]">View Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-4xl mx-auto px-6 md:px-8 pb-24">
+
+    <!-- Findings -->
+    <section id="findings" class="pt-24">
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Class and travel purpose matter most</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mb-8">Business class passengers were satisfied far more often than those in Economy, and business travellers far more often than personal travellers. Loyal customers were more satisfied than disloyal ones: 47.7% against 23.7%.</p>
+
+      <div class="space-y-3 max-w-2xl" role="img" aria-label="Share of passengers satisfied: Business 69.4 percent, Economy Plus 24.6, Economy 18.6, Business travel 58.3, Personal travel 10.2">
+        <p class="font-semibold text-gray-600 pt-1">By class</p>
+        <div class="grid grid-cols-[110px_1fr_52px] items-center gap-3"><span>Business</span><div class="h-4 bg-gray-200 rounded overflow-hidden"><div class="bar h-full" style="width:69.4%;background:#202A36"></div></div><span class="text-right font-semibold">69.4%</span></div>
+        <div class="grid grid-cols-[110px_1fr_52px] items-center gap-3"><span>Economy Plus</span><div class="h-4 bg-gray-200 rounded overflow-hidden"><div class="bar h-full" style="width:24.6%;background:#202A36"></div></div><span class="text-right font-semibold">24.6%</span></div>
+        <div class="grid grid-cols-[110px_1fr_52px] items-center gap-3"><span>Economy</span><div class="h-4 bg-gray-200 rounded overflow-hidden"><div class="bar h-full" style="width:18.6%;background:#202A36"></div></div><span class="text-right font-semibold">18.6%</span></div>
+        <p class="font-semibold text-gray-600 pt-4">By purpose of travel</p>
+        <div class="grid grid-cols-[110px_1fr_52px] items-center gap-3"><span>Business</span><div class="h-4 bg-gray-200 rounded overflow-hidden"><div class="bar h-full" style="width:58.3%;background:#202A36"></div></div><span class="text-right font-semibold">58.3%</span></div>
+        <div class="grid grid-cols-[110px_1fr_52px] items-center gap-3"><span>Personal</span><div class="h-4 bg-gray-200 rounded overflow-hidden"><div class="bar h-full" style="width:10.2%;background:#202A36"></div></div><span class="text-right font-semibold">10.2%</span></div>
+      </div>
+
+      <figure class="mt-10">
+        <img src="https://github.com/midhun-babu/Airline-Passenger-Satisfaction/blob/main/images/satisfactionByClassAndTravelType.png?raw=true" alt="Bar charts of satisfaction rate by class and by travel type" loading="lazy" class="w-full rounded-2xl border border-gray-200 bg-white">
+        <figcaption class="text-sm text-gray-500 mt-2">Satisfaction rate by class and by travel type.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="pt-24">
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Which services matter</h2>
+      <p class="text-lg text-gray-600 max-w-2xl">Online boarding has the strongest link to satisfaction, at about 0.50. Inflight entertainment (about 0.40) and seat comfort (about 0.35) follow. Gate location shows almost no link, and departure and arrival time convenience is slightly negative.</p>
+      <figure class="mt-8">
+        <img src="https://github.com/midhun-babu/Airline-Passenger-Satisfaction/blob/main/images/correlationOrFeatureImportanceChart.png?raw=true" alt="Bar chart of the correlation between each service rating and satisfaction" loading="lazy" class="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white">
+        <figcaption class="text-sm text-gray-500 mt-2">Correlation of each service rating with satisfaction.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Delays -->
+    <section id="delays" class="pt-24">
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Delays matter, but less</h2>
+      <p class="text-lg text-gray-600 max-w-2xl">The satisfied share falls from 45.8% with no departure delay to about 36% once the delay passes an hour, then levels off. The effect is smaller than the gaps by class or travel purpose.</p>
+      <div class="overflow-x-auto mt-6">
+        <table class="w-full max-w-lg text-left tabular-nums">
+          <thead><tr class="text-gray-500 border-b border-gray-200"><th class="py-2 font-semibold">Departure delay</th><th class="py-2 font-semibold text-right">Satisfied</th><th class="py-2 font-semibold text-right">Passengers</th></tr></thead>
+          <tbody class="[&_tr]:border-b [&_tr]:border-gray-200 [&_td]:py-2 [&_td:not(:first-child)]:text-right">
+            <tr><td>No delay</td><td>45.8%</td><td>58,668</td></tr>
+            <tr><td>1-15 min</td><td>43.7%</td><td>22,184</td></tr>
+            <tr><td>16-60 min</td><td>37.4%</td><td>15,813</td></tr>
+            <tr><td>61-120 min</td><td>35.6%</td><td>4,699</td></tr>
+            <tr><td>120+ min</td><td>36.1%</td><td>2,540</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="mt-8">
+        <img src="https://github.com/midhun-babu/Airline-Passenger-Satisfaction/blob/main/images/delayChart.png?raw=true" alt="Bar chart of satisfaction rate by departure delay" loading="lazy" class="w-full max-w-2xl rounded-2xl border border-gray-200 bg-white">
+        <figcaption class="text-sm text-gray-500 mt-2">Satisfaction rate by departure delay.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Models -->
+    <section id="models" class="pt-24">
+      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Model results</h2>
+      <p class="text-lg text-gray-600 max-w-2xl">Two models were trained on 103,904 passengers and scored on a separate test set of 25,976. Always predicting "not satisfied" would be right about 56.1% of the time. The random forest's most important features were online boarding, inflight wifi, personal travel, economy class and inflight entertainment.</p>
+      <div class="overflow-x-auto mt-6">
+        <table class="w-full max-w-lg text-left tabular-nums">
+          <thead><tr class="text-gray-500 border-b border-gray-200"><th class="py-2 font-semibold">Model</th><th class="py-2 font-semibold text-right">Accuracy</th><th class="py-2 font-semibold text-right">Precision</th><th class="py-2 font-semibold text-right">Recall</th></tr></thead>
+          <tbody class="[&_tr]:border-b [&_tr]:border-gray-200 [&_td]:py-2 [&_td:not(:first-child)]:text-right">
+            <tr><td>Logistic regression</td><td>87.2%</td><td>0.87</td><td>0.83</td></tr>
+            <tr><td>Random forest</td><td>96.3%</td><td>0.97</td><td>0.94</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-gray-500 mt-2">Precision and recall are for the satisfied class.</p>
+    </section>
+
+    <!-- Recommendations and limits -->
+    <section class="pt-24 grid md:grid-cols-2 gap-12">
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight mb-4">What an airline could do</h2>
+        <ul class="list-disc pl-5 space-y-3 text-gray-700">
+          <li>Look at online boarding, inflight entertainment and seat comfort first.</li>
+          <li>Focus on economy and personal travellers, the groups with the lowest satisfaction.</li>
+          <li>Manage delays, but do not expect them to explain most of the gap.</li>
+          <li>Treat gate location and time convenience as lower priorities.</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight mb-4">Limits of this analysis</h2>
+        <ul class="list-disc pl-5 space-y-3 text-gray-700">
+          <li>The results show association, not cause.</li>
+          <li>Class and travel rates are simple averages and do not control for other factors.</li>
+          <li>The dataset's original source is not documented, so it may not represent any particular airline.</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="mt-16 flex flex-wrap gap-4">
+      <a href="https://github.com/midhun-babu/Airline-Passenger-Satisfaction" class="px-4 py-2 rounded-full text-white font-medium transition-colors bg-[#202A36] hover:bg-[#1a2229]">View Code</a>
+      <a href="https://colab.research.google.com/github/midhun-babu/Airline-Passenger-Satisfaction/blob/main/Airline_Analysis.ipynb" class="px-4 py-2 rounded-full bg-gray-300 text-gray-800 font-medium hover:bg-gray-400 transition-colors">Open in Colab</a>
+    </div>
+
+    <footer class="mt-16 pt-6 border-t border-gray-200 text-sm text-gray-500">
+      Built with Python, pandas, matplotlib, seaborn and scikit-learn in Google Colab. Data: <a class="underline" href="https://www.kaggle.com/teejmahal20/airline-passenger-satisfaction">Airline Passenger Satisfaction on Kaggle</a>.
+    </footer>
+  </main>
+</div>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const menu = document.getElementById('mobileMenu');
+  const iconMenu = document.getElementById('iconMenu');
+  const iconX = document.getElementById('iconX');
+  function setOpen(open){
+    menu.classList.toggle('hidden', !open);
+    menu.classList.toggle('flex', open);
+    iconMenu.classList.toggle('hidden', open);
+    iconX.classList.toggle('hidden', !open);
+    btn.setAttribute('aria-expanded', open);
+  }
+  btn.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+</script>
+</body>
+</html>
